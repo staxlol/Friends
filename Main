@@ -38,18 +38,18 @@ getgenv().Aiming = {
     Enabled = true,
 
     ShowFOV = false,
-    FOV = 119,
-    FOVSides = 300,
-    FOVColour = Color3fromRGB(0, 147, 255),
+    FOV = 20,
+    FOVSides = 100,
+    FOVColour = Color3fromRGB(255, 255, 255),
 
     VisibleCheck = true,
     
-    HitChance = 110,
+    HitChance = 100,
 
     Selected = nil,
     SelectedPart = nil,
 
-    TargetPart = {"Head", "UpperTorso", "HumanoidRootPart", "LowerTorso"},
+    TargetPart = {"Head", "LeftHand", "RightHand", "LeftLowerArm", "RightLowerArm", "LeftUpperArm", "RightUpperArm", "LeftFoot", "LeftLowerLeg", "UpperTorso", "LeftUpperLeg", "RightLowerLeg", "RightFoot", "LowerTorso", "RightUpperLeg"},
 
     Ignored = {
         Teams = {
@@ -60,7 +60,7 @@ getgenv().Aiming = {
         },
         Players = {
             LocalPlayer,
-          3162421545
+            1638941207
         }
     }
 }
@@ -68,8 +68,8 @@ local Aiming = getgenv().Aiming
 
 -- // Create circle
 local circle = Drawingnew("Circle")
-circle.Transparency = 1
-circle.Thickness = 2
+circle.Transparency = 0.4
+circle.Thickness = 0.8
 circle.Color = Aiming.FOVColour
 circle.Filled = false
 Aiming.FOVCircle = circle
@@ -435,7 +435,7 @@ Heartbeat:Connect(function()
 end)
 
 -- //
-return Aiming 
+return Aiming
 
 -- // Resolver
 local RunService = game:GetService("RunService")
@@ -468,4 +468,23 @@ RunService.Heartbeat:Connect(function()
             end
         end
     end)
+end)
+
+-- // Memory Spoofer
+local Settings = {
+    range1 = 971,
+    range2 = 987,
+    
+}
+
+for __, v in pairs(game.CoreGui.RobloxGui.PerformanceStats:GetChildren()) do
+    if v.Name == "PS_Button" and v.StatsMiniTextPanelClass.TitleLabel.Text == "Mem" then
+        Memory = v.StatsMiniTextPanelClass.ValueLabel
+    end
+end
+
+Memory:GetPropertyChangedSignal("Text"):Connect(function()
+    local Random = math.random(Settings.range1,Settings.range2)
+    Random = Random * 1.23 
+    Memory.Text = "".. Random .." MB"
 end)
